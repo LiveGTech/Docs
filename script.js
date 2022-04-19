@@ -23,7 +23,7 @@ astronaut.component("ContentsNode", function(props, children, inter) {
             var data = props.data[key];
 
             if (typeof(data) == "object") {
-                var childNode = ContentsNode({data}) ();
+                var childNode = ContentsNode({data, root: props.root}) ();
 
                 inter.pages.push(...childNode.inter.pages);
 
@@ -48,6 +48,17 @@ astronaut.component("ContentsNode", function(props, children, inter) {
 
             var button = PageMenuButton({page}) (Text(key));
 
+            button.on("click", function() {
+                fetch(`${props.root}/${data}`).then(function(response) {
+                    return response.text();
+                }).then(function(contents) {
+                    var converter = new showdown.Converter();
+                    var renderedContents = $g.create("section").setHTML(converter.makeHtml(contents));
+
+                    page.clear().add(renderedContents);
+                });
+            });
+
             inter.pages.push(page);
 
             return button;
@@ -59,7 +70,7 @@ astronaut.component("ContentsNode", function(props, children, inter) {
 
 astronaut.component("DocViewScreen", function(props, children) {
     var menu = PageMenu() ();
-    var menuButton = IconButton("menu") ();
+    var menuButton = IconButton({icon: "menu", attributes: {"aui-display": "mobile"}}) ();
 
     var screen = Screen(true) (
         Header (
@@ -76,10 +87,9 @@ astronaut.component("DocViewScreen", function(props, children) {
     fetch("https://raw.githubusercontent.com/LiveGTech/Adapt-UI/main/docs/en/contents.json").then(function(response) {
         return response.json();
     }).then(function(data) {
-        var contents = ContentsNode({data}) ();
+        var contents = ContentsNode({data, root: "https://raw.githubusercontent.com/LiveGTech/Adapt-UI/main/docs/en"}) ();
 
         contents.inter.pages.map((page) => screen.add(page));
-
         menu.clear().add(contents);
 
         aside.addPages(menu.get());
@@ -88,9 +98,4 @@ astronaut.component("DocViewScreen", function(props, children) {
     return screen;
 });
 
-astronaut.render(DocViewScreen({
-    productName: "Adapt UI",
-    contents: {
-        "Hello, world!": "test"
-    }
-}) ());
+astronaut.render(DocViewScreen({productName: "Adapt UI"}) ());
