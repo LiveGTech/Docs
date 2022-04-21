@@ -1,0 +1,13 @@
+{
+    "products": {
+        "adaptui": {
+            "name": {
+                "en_GB": "Adapt UI"
+            },
+            "docsRootUrl": {
+                "en_GB": "https://raw.githubusercontent.com/LiveGTech/Adapt-UI/main/docs/en"
+            },
+            "fallbackLocale": "en_GB"
+        }
+    }
+}
