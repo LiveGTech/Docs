@@ -18,12 +18,6 @@ astronaut.unpack();
 import * as docView from "./docview.js";
 import * as productsView from "./productsview.js";
 
-astronaut.render(Screen(true) (
-    Header() (),
-    PageMenu() (),
-    Page(true) ()
-));
-
 $g.waitForLoad().then(function() {
     fetch("products.json").then(function(response) {
         return response.json();
