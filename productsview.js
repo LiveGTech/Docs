@@ -10,9 +10,6 @@
 import * as astronaut from "https://opensource.liveg.tech/Adapt-UI/astronaut/astronaut.js";
 
 export var ProductsViewScreen = astronaut.component("ProductsViewScreen", function(props, children) {
-    // TODO: List all products and not just Adapt UI
-    var auiButton = Button() ("See Adapt UI's docs");
-
     var screen = Screen (
         Page(true) (
             Section (
@@ -39,10 +36,6 @@ export var ProductsViewScreen = astronaut.component("ProductsViewScreen", functi
             )
         )
     );
-
-    auiButton.on("click", function() {
-        screen.emit("opendoc", {product: "adaptui"})
-    });
 
     return screen;
 });
