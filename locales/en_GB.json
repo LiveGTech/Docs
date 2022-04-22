@@ -1,0 +1,17 @@
+{
+    "localeCode": "en_GB",
+    "metadata": {
+        "name": "English (United Kingdom)",
+        "nameShort": "English",
+        "textDirection": "ltr"
+    },
+    "source": {
+        "livegDocs": "LiveG Docs",
+
+        "docView_title": "{pageName} - LiveG Docs",
+        "docView_showMenu": "Show menu",
+        "docView_switchLanguage": "Switch docs language",
+        "docView_showProducts": "Show products",
+        "docView_loadingArticle": "Loading article..."
+    }
+}

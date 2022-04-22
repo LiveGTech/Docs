@@ -16,9 +16,26 @@ export var ProductsViewScreen = astronaut.component("ProductsViewScreen", functi
     var screen = Screen (
         Page(true) (
             Section (
-                Heading() ("LiveG Docs"),
-                Paragraph() ("Full product listing coming soon! In the mean time, take a look at Adapt UI's docs."),
-                auiButton
+                Heading() (_("livegDocs")),
+                Cards({mode: "grid"}) (
+                    ...Object.keys(props.products).map(function(productId) {
+                        var product = props.products[productId];
+                        var locale = product.name[props.locale] ? props.locale : product.fallbackLocale;
+
+                        var link = Link() (Text(product.name[locale]));
+
+                        var card = Card() (
+                            Heading(2) (link),
+                            Paragraph() (Text(product.description[locale]))
+                        );
+
+                        link.on("click", function(event) {
+                            screen.emit("opendoc", {product: productId});
+                        });
+
+                        return card;
+                    })
+                )
             )
         )
     );

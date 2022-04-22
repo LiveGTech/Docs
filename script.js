@@ -19,6 +19,14 @@ import * as docView from "./docview.js";
 import * as productsView from "./productsview.js";
 
 $g.waitForLoad().then(function() {
+    return $g.l10n.selectLocaleFromResources({
+        "en_GB": "locales/en_GB.json"
+    });
+}).then(function(locale) {
+    window._ = function() {
+        return locale.translate(...arguments);
+    };
+
     fetch("products.json").then(function(response) {
         return response.json();
     }).then(function(data) {
@@ -26,39 +34,45 @@ $g.waitForLoad().then(function() {
         var startingPage = $g.core.parameter("page") || "index.md";
         var docViewContainer = Container() ();
         var docViewScreen = Screen() ();
-        var productsViewScreen = productsView.ProductsViewScreen() ();
+        var productsViewScreen = productsView.ProductsViewScreen({products: data.products, locale: l10n.getSystemLocaleCode()}) ();
+        var isOpeningDocView = false;
 
         function setDocViewScreen() {
             var currentProduct = data.products[productId] || null;
-            var locale = l10n.getSystemLocaleCode();
-    
-            if (!currentProduct.name[locale]) {
-                locale = currentProduct.fallbackLocale || "en_GB";
-            }
     
             docViewScreen = docView.DocViewScreen({
                 productId,
                 startingPage,
                 product: currentProduct,
-                locale
+                locale: l10n.getSystemLocaleCode()
             }) ();
 
             docViewScreen.on("showproducts", function() {
+                $g.sel("title").setText(_("livegDocs"));
+
+                window.history.pushState({}, window.title, "/");
+
                 productsViewScreen.screenBack();
             });
 
             docViewContainer.clear().add(docViewScreen);
         }
 
-        console.log(docViewContainer);
         docViewContainer.setStyle("position", "relative");
 
         productsViewScreen.on("opendoc", function(event) {
+            if (isOpeningDocView) {
+                return;
+            }
+
+            isOpeningDocView = true;
             productId = event.detail.product;
             startingPage = "index.md";
 
             setDocViewScreen();
-            docViewScreen.screenForward();
+            docViewScreen.screenForward().then(function() {
+                isOpeningDocView = false;
+            });
         });
 
         if (productId != null) {

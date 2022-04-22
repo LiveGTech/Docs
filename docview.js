@@ -11,6 +11,10 @@ import * as $g from "https://opensource.liveg.tech/Adapt-UI/src/adaptui.js";
 import * as astronaut from "https://opensource.liveg.tech/Adapt-UI/astronaut/astronaut.js";
 import * as aside from "https://opensource.liveg.tech/Adapt-UI/src/aside.js";
 
+export const LANGUAGES = {
+    "en_GB": "English (United Kingdom)"
+};
+
 export function getAllContentsPages(contents) {
     var pages = [];
 
@@ -52,9 +56,9 @@ export var ContentsNode = astronaut.component("ContentsNode", function(props, ch
                 );
             }
 
-            var page = Page({showing: data == props.startingPage}) (
+            var page = Page({showing: data == props.startingPage, classes: ["docView_page"]}) (
                 Section (
-                    SkeletonLoader("Loading article...") (
+                    SkeletonLoader(_("docView_loadingArticle")) (
                         Heading(1) (),
                         astronaut.repeat(3, Paragraph() ()),
                         astronaut.repeat(3, Container (
@@ -66,7 +70,8 @@ export var ContentsNode = astronaut.component("ContentsNode", function(props, ch
             );
 
             page.inter.load = function() {
-                $g.sel("title").setText(key);
+                $g.sel("title").setText(_("docView_title", {pageName: key}));
+                window.history.pushState({page: data}, window.title, `?product=${props.productId}&page=${data}`);
 
                 return fetch(`${props.root}/${data}`).then(function(response) {
                     return response.text();
@@ -115,8 +120,6 @@ export var ContentsNode = astronaut.component("ContentsNode", function(props, ch
 
             button.on("click", function() {
                 page.inter.load();
-
-                window.history.pushState({page: data}, window.title, `?product=${props.productId}&page=${data}`);
             });
 
             return button;
@@ -128,47 +131,77 @@ export var ContentsNode = astronaut.component("ContentsNode", function(props, ch
 
 export var DocViewScreen = astronaut.component("DocViewScreen", function(props, children) {
     var menu = PageMenu() ();
-    var menuButton = IconButton({icon: "menu", alt: "Show menu", attributes: {"aui-display": "mobile"}}) ();
-    var productsButton = IconButton({icon: "products", alt: "Show products"}) ();
+    var menuButton = IconButton({icon: "menu", alt: _("docView_showMenu"), attributes: {"aui-display": "mobile"}}) ();
+    var productsButton = IconButton({icon: "products", alt: _("docView_showProducts")}) ();
+    var languageMenu = Menu() ();
+    var languageMenuButton = IconButton({icon: "translate", alt: _("docView_switchLanguage")}) ();
 
     var screen = Screen (
         Header (
             menuButton,
             Text(props.product.name[props.locale]),
+            languageMenuButton,
             productsButton
         ),
-        menu
+        menu,
+        languageMenu
+    );
+
+    function loadContents(locale = props.locale) {
+        if (!props.product.name[locale]) {
+            locale = props.product.fallbackLocale;
+        }
+
+        fetch(`${props.product.docsRootUrl[locale]}/contents.json`).then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            if (!getAllContentsPages(data).includes(props.startingPage)) {
+                data["_startingPage"] = props.startingPage;
+            }
+
+            screen.find(".docView_page").remove();
+
+            var contents = ContentsNode({
+                data,
+                productId: props.productId,
+                startingPage: props.startingPage,
+                root: props.product.docsRootUrl[locale]
+            }) ();
+
+            contents.inter.pages.map((page) => screen.add(page));
+            menu.clear().add(contents);
+
+            aside.addPages(menu.get());
+
+            menu.find("button[aui-selected]").ancestor("details").setAttribute("open", true);
+        });
+    }
+
+    languageMenu.add(
+        ...Object.keys(props.product.name).map(function(locale) {
+            var button = MenuButton() (Text(LANGUAGES[locale] || locale));
+
+            button.on("click", function() {
+                loadContents(locale);
+            });
+
+            return button;
+        })
     );
 
     menuButton.on("click", function() {
         menu.asideOpen();
     });
 
+    languageMenuButton.on("click", function() {
+        languageMenu.menuOpen();
+    });
+
     productsButton.on("click", function() {
         screen.emit("showproducts");
     });
-    
-    fetch(`${props.product.docsRootUrl[props.locale]}/contents.json`).then(function(response) {
-        return response.json();
-    }).then(function(data) {
-        if (!getAllContentsPages(data).includes(props.startingPage)) {
-            data["_startingPage"] = props.startingPage;
-        }
 
-        var contents = ContentsNode({
-            data,
-            productId: props.productId,
-            startingPage: props.startingPage,
-            root: props.product.docsRootUrl[props.locale]
-        }) ();
-
-        contents.inter.pages.map((page) => screen.add(page));
-        menu.clear().add(contents);
-
-        aside.addPages(menu.get());
-
-        menu.find("button[aui-selected]").ancestor("details").setAttribute("open", true);
-    });
+    loadContents();
 
     return screen;
 });

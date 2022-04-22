@@ -4,6 +4,9 @@
             "name": {
                 "en_GB": "Adapt UI"
             },
+            "description": {
+                "en_GB": "Our user interface library and design langauge for building consistent and appealing products"
+            },
             "docsRootUrl": {
                 "en_GB": "https://raw.githubusercontent.com/LiveGTech/Adapt-UI/main/docs/en"
             },
