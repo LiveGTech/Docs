@@ -7,6 +7,7 @@
     },
     "source": {
         "livegDocs": "LiveG Docs",
+        "livegDocs_wordmark": " Docs",
 
         "docView_title": "{pageName} - LiveG Docs",
         "docView_showMenu": "Show menu",

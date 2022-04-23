@@ -13,7 +13,13 @@ export var ProductsViewScreen = astronaut.component("ProductsViewScreen", functi
     var screen = Screen (
         Page(true) (
             Section (
-                Heading() (_("livegDocs")),
+                Container({attributes: {"aui-justify": "middle"}}) (
+                    Heading({level: 1, styles: {fontSize: "4rem"}}) (
+                        BrandWordmark(_("livegDocs")) (
+                            Text(_("livegDocs_wordmark"))
+                        )
+                    )
+                ),
                 Cards({mode: "grid"}) (
                     ...Object.keys(props.products).map(function(productId) {
                         var product = props.products[productId];
