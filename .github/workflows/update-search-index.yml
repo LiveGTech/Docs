@@ -1,0 +1,19 @@
+name: Update search index
+on:
+  schedule:
+    - cron: 0 0 * * *
+jobs:
+  updateindex:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install npm modules
+        run: npm install
+      - name: Generate index
+        run: ./indexgen
+      - name: Commit index
+        run: |
+          git config --global user.name "gBot"
+          git config --global user.email "gbot@liveg.tech"
+          git commit -am --allow-empty "[Automated] Update search index"
+          git push

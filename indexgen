@@ -47,6 +47,8 @@ function getAllContents(contents) {
     return pages;
 }
 
+console.log("Generating index...");
+
 Object.keys(productsData.products).forEach(function(productId) {
     var product = productsData.products[productId];
 
@@ -68,6 +70,8 @@ Object.keys(productsData.products).forEach(function(productId) {
                     };
                 }));
 
+                console.log(`Generated for ${productId} (locale: ${locale})`);
+
                 return Promise.resolve();
             });
         });
@@ -75,5 +79,9 @@ Object.keys(productsData.products).forEach(function(productId) {
 });
 
 promiseChain.then(function() {
+    console.log("Finished generating; writing to file...");
+
     fs.writeFileSync(path.join("data", "searchindex.json"), JSON.stringify(indexData));
+
+    console.log("All done!");
 });
