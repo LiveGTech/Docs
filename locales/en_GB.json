@@ -13,6 +13,9 @@
         "docView_showMenu": "Show menu",
         "docView_switchLanguage": "Switch docs language",
         "docView_showProducts": "Show products",
-        "docView_loadingArticle": "Loading article..."
+        "docView_loadingArticle": "Loading article...",
+
+        "productsView_tagline": "The hub for all of LiveG's help guides, technical references and more",
+        "productsView_search": "Search through our documentation"
     }
 }

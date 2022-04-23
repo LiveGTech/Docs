@@ -1,0 +1,79 @@
+#!/usr/bin/env node
+
+/*
+    LiveG Docs
+
+    Copyright (C) LiveG. All Rights Reserved.
+
+    https://docs.liveg.tech
+    Licensed by the LiveG Open-Source Licence, which can be found at LICENCE.md.
+*/
+
+const fs = require("fs");
+const path = require("path");
+
+const fetch = function(...args) {
+    return import("node-fetch").then(function({default: fetch}) {
+        return fetch(...args);
+    });
+};
+
+var productsData = JSON.parse(fs.readFileSync(path.join("data", "products.json")));
+
+var indexData = {
+    index: []
+};
+
+var promiseChain = Promise.resolve();
+
+function getAllContents(contents) {
+    var pages = [];
+
+    Object.keys(contents).forEach(function(key) {
+        var data = contents[key];
+
+        if (typeof(data) == "object") {
+            pages.push(...getAllContents(data));
+
+            return;
+        }
+
+        pages.push({
+            name: key,
+            page: data
+        });
+    });
+
+    return pages;
+}
+
+Object.keys(productsData.products).forEach(function(productId) {
+    var product = productsData.products[productId];
+
+    Object.keys(product.docsRootUrl).forEach(function(locale) {
+        var rootUrl = product.docsRootUrl[locale];
+
+        promiseChain = promiseChain.then(function() {
+            return fetch(`${rootUrl}/contents.json`).then(function(response) {
+                return response.json();
+            }).then(function(contents) {
+                var pages = getAllContents(contents);
+
+                indexData.index.push(...pages.map(function(data) {
+                    return {
+                        pageName: data.name,
+                        productId,
+                        locale,
+                        page: data.page
+                    };
+                }));
+
+                return Promise.resolve();
+            });
+        });
+    });
+});
+
+promiseChain.then(function() {
+    fs.writeFileSync(path.join("data", "searchindex.json"), JSON.stringify(indexData));
+});

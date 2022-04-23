@@ -27,7 +27,7 @@ $g.waitForLoad().then(function() {
         return locale.translate(...arguments);
     };
 
-    fetch("products.json").then(function(response) {
+    fetch("data/products.json").then(function(response) {
         return response.json();
     }).then(function(data) {
         var productId = $g.core.parameter("product");
@@ -67,7 +67,7 @@ $g.waitForLoad().then(function() {
 
             isOpeningDocView = true;
             productId = event.detail.product;
-            startingPage = "index.md";
+            startingPage = event.detail.page || "index.md";
 
             setDocViewScreen();
             docViewScreen.screenForward().then(function() {
