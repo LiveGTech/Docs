@@ -16,5 +16,6 @@ jobs:
         run: |
           git config --global user.name "gBot"
           git config --global user.email "gbot@liveg.tech"
-          git commit -am --allow-empty "[Automated] Update search index"
+          git add .
+          git commit --allow-empty -m "[Automated] Update search index"
           git push
