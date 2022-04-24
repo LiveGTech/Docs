@@ -79,6 +79,8 @@ export var ContentsNode = astronaut.component("ContentsNode", function(props, ch
                     var converter = new showdown.Converter();
                     var renderedContents = $g.create("section").setHTML(converter.makeHtml(contents));
 
+                    renderedContents.find("pre").setAttribute("dir", "ltr");
+
                     renderedContents.find("a").getAll().forEach(function(link) {
                         var element = $g.sel(link);
 
