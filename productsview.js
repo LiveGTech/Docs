@@ -83,6 +83,7 @@ export var ProductsViewScreen = astronaut.component("ProductsViewScreen", functi
 
         searchInput.on("input", function() {
             var query = searchInput.getValue().trim();
+            var results = searcher.search(query);
     
             if (query == "") {
                 searchResultsList.hide();
@@ -91,29 +92,39 @@ export var ProductsViewScreen = astronaut.component("ProductsViewScreen", functi
                 return;
             }
 
-            searchResultsList.clear().add(
-                Cards() (
-                    ...searcher.search(query).map(function(result) {
-                        var data = result.item;
+            if (results.length > 0) {
+                searchResultsList.clear().add(
+                    Cards() (
+                        ...results.map(function(result) {
+                            var data = result.item;
 
-                        var link = Link() ();
+                            var link = Link() ();
 
-                        link.setHTML(new showdown.Converter().makeHtml(data.pageName));
-                        link.setHTML(link.find("p").getHTML());
+                            link.setHTML(new showdown.Converter().makeHtml(data.pageName));
+                            link.setHTML(link.find("p").getHTML());
 
-                        var card = Card() (
-                            Heading(2) (link),
-                            Paragraph() (Text(data.productName))
-                        );
+                            var card = Card() (
+                                Heading(2) (link),
+                                Paragraph() (Text(data.productName))
+                            );
 
-                        link.on("click", function() {
-                            screen.emit("opendoc", {product: data.productId, page: data.page});
-                        });
+                            link.on("click", function() {
+                                screen.emit("opendoc", {product: data.productId, page: data.page});
+                            });
 
-                        return card;
-                    })
-                )
-            );
+                            return card;
+                        })
+                    )
+                );
+            } else {
+                searchResultsList.clear().add(
+                    Message() (
+                        Icon("search", "dark embedded") (),
+                        Heading(2) (_("productsView_noResults_title")),
+                        Paragraph() (_("productsView_noResults_description"))
+                    )
+                );
+            }
     
             productsList.hide();
             searchResultsList.show();
