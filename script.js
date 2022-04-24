@@ -27,6 +27,10 @@ $g.waitForLoad().then(function() {
         return locale.translate(...arguments);
     };
 
+    $g.theme.setProperty("primaryHue", "190");
+    $g.theme.setProperty("primarySaturation", "80%");
+    $g.theme.setProperty("primaryLightness", "25%");
+
     fetch("data/products.json").then(function(response) {
         return response.json();
     }).then(function(data) {
