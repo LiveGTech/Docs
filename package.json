@@ -1,0 +1,9 @@
+{
+    "name": "liveg-docs",
+    "version": "0.1.0",
+    "description": "The LiveG Docs website and web app, providing documentation on LiveG's products and services.",
+    "author": "LiveG Technologies",
+    "dependencies": {
+        "node-fetch": "^3.2.3"
+    }
+}
