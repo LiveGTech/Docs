@@ -11,6 +11,8 @@ import * as $g from "https://opensource.liveg.tech/Adapt-UI/src/adaptui.js";
 import * as astronaut from "https://opensource.liveg.tech/Adapt-UI/astronaut/astronaut.js";
 import * as aside from "https://opensource.liveg.tech/Adapt-UI/src/aside.js";
 
+import * as markdown from "./markdown.js";
+
 export const LANGUAGES = {
     "en_GB": "English (United Kingdom)"
 };
@@ -76,8 +78,7 @@ export var ContentsNode = astronaut.component("ContentsNode", function(props, ch
                 return fetch(`${props.root}/${data}`).then(function(response) {
                     return response.text();
                 }).then(function(contents) {
-                    var converter = new showdown.Converter();
-                    var renderedContents = $g.create("section").setHTML(converter.makeHtml(contents));
+                    var renderedContents = $g.create("section").setHTML(markdown.toHtml(contents));
 
                     renderedContents.find("a").getAll().forEach(function(link) {
                         var element = $g.sel(link);
@@ -115,7 +116,7 @@ export var ContentsNode = astronaut.component("ContentsNode", function(props, ch
 
             var button = PageMenuButton({page, selected: data == props.startingPage}) ();
             
-            button.setHTML(new showdown.Converter().makeHtml(key));
+            button.setHTML(markdown.toHtml(key));
             button.setHTML(button.find("p").getHTML());
 
             button.on("click", function() {
