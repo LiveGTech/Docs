@@ -139,6 +139,8 @@ export var DocViewScreen = astronaut.component("DocViewScreen", function(props, 
     var languageMenu = Menu() ();
     var languageMenuButton = IconButton({icon: "translate", alt: _("docView_switchLanguage")}) ();
 
+    // FIXME: Menu button and menu both don't show at a certain viewport width
+
     var screen = Screen (
         Header (
             menuButton,
