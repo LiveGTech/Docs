@@ -10,6 +10,8 @@
 import * as $g from "https://opensource.liveg.tech/Adapt-UI/src/adaptui.js";
 import * as astronaut from "https://opensource.liveg.tech/Adapt-UI/astronaut/astronaut.js";
 import * as aside from "https://opensource.liveg.tech/Adapt-UI/src/aside.js";
+import * as markup from "https://opensource.liveg.tech/Adapt-UI/src/markup.js";
+window.markup = markup; // TODO: Remove
 
 import * as markdown from "./markdown.js";
 
@@ -134,12 +136,10 @@ export var ContentsNode = astronaut.component("ContentsNode", function(props, ch
 
 export var DocViewScreen = astronaut.component("DocViewScreen", function(props, children) {
     var menu = PageMenu() ();
-    var menuButton = IconButton({icon: "menu", alt: _("docView_showMenu"), attributes: {"aui-display": "mobile"}}) ();
+    var menuButton = HeaderPageMenuButton({alt: _("docView_showMenu")}) ();
     var productsButton = IconButton({icon: "products", alt: _("docView_showProducts")}) ();
     var languageMenu = Menu() ();
     var languageMenuButton = IconButton({icon: "translate", alt: _("docView_switchLanguage")}) ();
-
-    // FIXME: Menu button and menu both don't show at a certain viewport width
 
     var screen = Screen (
         Header (
