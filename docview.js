@@ -10,8 +10,6 @@
 import * as $g from "https://opensource.liveg.tech/Adapt-UI/src/adaptui.js";
 import * as astronaut from "https://opensource.liveg.tech/Adapt-UI/astronaut/astronaut.js";
 import * as aside from "https://opensource.liveg.tech/Adapt-UI/src/aside.js";
-import * as markup from "https://opensource.liveg.tech/Adapt-UI/src/markup.js";
-window.markup = markup; // TODO: Remove
 
 import * as markdown from "./markdown.js";
 
