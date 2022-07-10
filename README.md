@@ -1,6 +1,8 @@
 # Docs
 The LiveG Docs website and web app, providing documentation on LiveG's products and services.
 
+Licensed by the [LiveG Open-Source Licence](LICENCE.md).
+
 ## Products database
 Product information is stored in `data/products.json`, and contains various details for each product in each locale, such as product names, descriptions, docs URLs and more.
 
