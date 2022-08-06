@@ -1,5 +1,17 @@
 {
     "products": {
+        "os": {
+            "name": {
+                "en_GB": "LiveG OS"
+            },
+            "description": {
+                "en_GB": "Our modern, secure and feature-packed operating system that powers a range of our products."
+            },
+            "docsRootUrl": {
+                "en_GB": "https://raw.githubusercontent.com/LiveGTech/OS/main/docs/en"
+            },
+            "fallbackLocale": "en_GB"
+        },
         "adaptui": {
             "name": {
                 "en_GB": "Adapt UI"
