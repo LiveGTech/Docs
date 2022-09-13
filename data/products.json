@@ -2,13 +2,16 @@
     "products": {
         "os": {
             "name": {
-                "en_GB": "LiveG OS"
+                "en_GB": "LiveG OS",
+                "fr_FR": "LiveG OS"
             },
             "description": {
-                "en_GB": "Our modern, secure and feature-packed operating system that powers a range of our products"
+                "en_GB": "Our modern, secure and feature-packed operating system that powers a range of our products",
+                "fr_FR": "Notre système d'exploitation moderne, sécurisé et plein de fonctionnalités qui alimente une gamme de nos produits"
             },
             "docsRootUrl": {
-                "en_GB": "https://raw.githubusercontent.com/LiveGTech/OS/main/docs/en"
+                "en_GB": "https://raw.githubusercontent.com/LiveGTech/OS/main/docs/en",
+                "fr_FR": "https://raw.githubusercontent.com/LiveGTech/OS/main/docs/fr"
             },
             "fallbackLocale": "en_GB"
         },

@@ -14,7 +14,8 @@ import * as aside from "https://opensource.liveg.tech/Adapt-UI/src/aside.js";
 import * as markdown from "./markdown.js";
 
 export const LANGUAGES = {
-    "en_GB": "English (United Kingdom)"
+    "en_GB": "English (United Kingdom)",
+    "fr_FR": "Français (France)"
 };
 
 export function getAllContentsPages(contents) {
@@ -181,7 +182,7 @@ export var DocViewScreen = astronaut.component("DocViewScreen", function(props, 
     }
 
     languageMenu.add(
-        ...Object.keys(props.product.name).map(function(locale) {
+        ...Object.keys(props.product.docsRootUrl).map(function(locale) {
             var button = MenuButton() (Text(LANGUAGES[locale] || locale));
 
             button.on("click", function() {
