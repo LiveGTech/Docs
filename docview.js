@@ -10,6 +10,7 @@
 import * as $g from "https://opensource.liveg.tech/Adapt-UI/src/adaptui.js";
 import * as astronaut from "https://opensource.liveg.tech/Adapt-UI/astronaut/astronaut.js";
 import * as aside from "https://opensource.liveg.tech/Adapt-UI/src/aside.js";
+import * as typeset from "https://opensource.liveg.tech/Typeset-Engine/src/typeset.js";
 
 import * as markdown from "./markdown.js";
 
@@ -82,6 +83,17 @@ export var ContentsNode = astronaut.component("ContentsNode", function(props, ch
                     var renderedContents = $g.create("section").setHTML(markdown.toHtml(contents));
 
                     renderedContents.find("pre").setAttribute("dir", "ltr");
+
+                    renderedContents.find("pre").items().forEach(function(element) {
+                        var typesetElement = typeset.CodeEditor({
+                            language: [...element.find("code").get().classList].find((name) => name.startsWith("language-"))?.replace(/^language-/, "") || "text",
+                            code: element.getText().replace(/\n$/, ""),
+                            readOnly: true,
+                            adaptiveHeight: true
+                        }) ();
+
+                        element.get().replaceWith(typesetElement.get());
+                    });
 
                     renderedContents.find("a").getAll().forEach(function(link) {
                         var element = $g.sel(link);
@@ -209,3 +221,5 @@ export var DocViewScreen = astronaut.component("DocViewScreen", function(props, 
 
     return screen;
 });
+
+typeset.init();
