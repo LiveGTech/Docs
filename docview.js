@@ -155,7 +155,7 @@ export var DocViewScreen = astronaut.component("DocViewScreen", function(props, 
     var screen = Screen (
         Header (
             menuButton,
-            Text(props.product.name[props.locale]),
+            Text(props.product.name[props.locale] || props.product.name[props.fallbackLocale || "en_GB"]),
             languageMenuButton,
             productsButton
         ),
