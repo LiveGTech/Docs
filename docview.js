@@ -10,11 +10,13 @@
 import * as $g from "https://opensource.liveg.tech/Adapt-UI/src/adaptui.js";
 import * as astronaut from "https://opensource.liveg.tech/Adapt-UI/astronaut/astronaut.js";
 import * as aside from "https://opensource.liveg.tech/Adapt-UI/src/aside.js";
+import * as typeset from "https://opensource.liveg.tech/Typeset-Engine/src/typeset.js";
 
 import * as markdown from "./markdown.js";
 
 export const LANGUAGES = {
-    "en_GB": "English (United Kingdom)"
+    "en_GB": "English (United Kingdom)",
+    "fr_FR": "Français (France)"
 };
 
 export function getAllContentsPages(contents) {
@@ -82,6 +84,17 @@ export var ContentsNode = astronaut.component("ContentsNode", function(props, ch
 
                     renderedContents.find("pre").setAttribute("dir", "ltr");
 
+                    renderedContents.find("pre").items().forEach(function(element) {
+                        var typesetElement = typeset.CodeEditor({
+                            language: [...element.find("code").get().classList].find((name) => name.startsWith("language-"))?.replace(/^language-/, "") || "text",
+                            code: element.getText().replace(/\n$/, ""),
+                            readOnly: true,
+                            adaptiveHeight: true
+                        }) ();
+
+                        element.get().replaceWith(typesetElement.get());
+                    });
+
                     renderedContents.find("a").getAll().forEach(function(link) {
                         var element = $g.sel(link);
 
@@ -142,7 +155,7 @@ export var DocViewScreen = astronaut.component("DocViewScreen", function(props, 
     var screen = Screen (
         Header (
             menuButton,
-            Text(props.product.name[props.locale]),
+            Text(props.product.name[props.locale] || props.product.name[props.fallbackLocale || "en_GB"]),
             languageMenuButton,
             productsButton
         ),
@@ -181,7 +194,7 @@ export var DocViewScreen = astronaut.component("DocViewScreen", function(props, 
     }
 
     languageMenu.add(
-        ...Object.keys(props.product.name).map(function(locale) {
+        ...Object.keys(props.product.docsRootUrl).map(function(locale) {
             var button = MenuButton() (Text(LANGUAGES[locale] || locale));
 
             button.on("click", function() {
@@ -208,3 +221,5 @@ export var DocViewScreen = astronaut.component("DocViewScreen", function(props, 
 
     return screen;
 });
+
+typeset.init();

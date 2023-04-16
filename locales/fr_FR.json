@@ -1,0 +1,24 @@
+{
+    "localeCode": "fr_FR",
+    "metadata": {
+        "name": "Français (France)",
+        "nameShort": "Français",
+        "textDirection": "ltr"
+    },
+    "source": {
+        "livegDocs": "LiveG Docs",
+        "livegDocs_wordmark": " Docs",
+
+        "docView_title": "{pageName} - LiveG Docs",
+        "docView_showMenu": "Afficher le menu",
+        "docView_switchLanguage": "Changer la langue de docs",
+        "docView_showProducts": "Afficher les produits",
+        "docView_loadingArticle": "Article de chargement...",
+
+        "productsView_tagline": "Le centre de tous les guides d'aide de LiveG, références techniques et plus",
+        "productsView_search": "Rechercher dans notre documentation",
+
+        "productsView_noResults_title": "Aucun résultat trouvé",
+        "productsView_noResults_description": "Il semble que nous n'avons rien sur le sujet que vous avez cherché. Essayez de rechercher un sujet similaire ou autre chose."
+    }
+}

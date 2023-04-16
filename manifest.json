@@ -1,0 +1,21 @@
+{
+    "name": "LiveG Docs",
+    "short_name": "Docs",
+    "description": "The hub for all of LiveG's help guides, technical references and more.",
+    "icons": [
+        {
+            "src": "/media/icon.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        },
+        {
+            "src": "/media/appicon.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "maskable"
+        }
+    ],
+    "scope": "/",
+    "start_url": "/",
+    "display": "standalone"
+}
