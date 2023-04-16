@@ -85,7 +85,7 @@ export var ContentsNode = astronaut.component("ContentsNode", function(props, ch
                     renderedContents.find("a").getAll().forEach(function(link) {
                         var element = $g.sel(link);
 
-                        if (element.getAttribute("href")?.match(/^([a-zA-Z-]+:)?\/\//)) {
+                        if (element.getAttribute("href")?.match(/^([a-zA-Z-]+:)?\/\/|^[a-zA-Z-]+:/)) {
                             element.setAttribute("target", "_blank");
                         } else {
                             element.setAttribute("href", `?product=${props.productId}&page=${element.getAttribute("href")}`);
@@ -95,7 +95,7 @@ export var ContentsNode = astronaut.component("ContentsNode", function(props, ch
                     renderedContents.find("img").getAll().forEach(function(link) {
                         var element = $g.sel(link);
 
-                        if (!element.getAttribute("src")?.match(/^([a-zA-Z-]+:)?\/\//)) {
+                        if (!element.getAttribute("src")?.match(/^([a-zA-Z-]+:)?\/\/|^[a-zA-Z-]+:/)) {
                             element.setAttribute("src", `${props.root}/${element.getAttribute("src")}`);
                         }
                     });
