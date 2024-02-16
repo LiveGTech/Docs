@@ -38,6 +38,18 @@
                 "en_GB": "https://raw.githubusercontent.com/LiveGTech/gShell/main/docs/en"
             },
             "fallbackLocale": "en_GB"
+        },
+        "styleguide": {
+            "name": {
+                "en_GB": "Style Guide"
+            },
+            "description": {
+                "en_GB": "Guidelines for LiveG contributors for formatting written communications and code"
+            },
+            "docsRootUrl": {
+                "en_GB": "https://raw.githubusercontent.com/LiveGTech/Style-Guide/main/docs/en"
+            },
+            "fallbackLocale": "en_GB"
         }
     }
 }
