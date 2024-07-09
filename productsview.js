@@ -35,13 +35,7 @@ export var ProductsViewScreen = astronaut.component("ProductsViewScreen", functi
         )
     );
 
-    var searchResultsList = Section (
-        Cards() (
-            Card() (
-                Heading(2) ("Test")
-            )
-        )
-    );
+    var searchResultsList = Section() ();
 
     searchResultsList.hide();
 
